@@ -1,0 +1,25 @@
+{
+    "name": "MW-Browser",
+    "private": true,
+    "version": "1.0.0",
+    "description": "MW-Browser / a modern Browser made with electron + vite + react template",
+    "main": "dist/electron/main/index.js",
+    "author": "manuelwestermeier",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build && electron-builder --config electron/electron-builder.json5"
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "@types/react": "^18.0.17",
+        "@types/react-dom": "^18.0.6",
+        "@vitejs/plugin-react": "^2.1.0",
+        "electron": "^21.0.0",
+        "electron-builder": "^23.3.3",
+        "electron-devtools-installer": "^3.2.0",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "vite": "^3.1.0",
+        "vite-plugin-electron": "^0.9.3"
+    }
+}
