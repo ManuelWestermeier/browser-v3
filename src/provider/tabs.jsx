@@ -20,24 +20,31 @@ export const TabsProvider = ({ children }) => {
 
     const addTab = () => {
         const id = crypto.randomUUID();
-        let currentTabsIndex = 0;
+        const openTabIndex = tabs.findIndex(tab => tab.id == openTabId) + 1;
 
-        for (const tab of tabs) {
-            if (tab.id === currentTabsIndex) break;
-            currentTabsIndex++;
-        }
-
-        // Fix: Correct way to insert without mutating the array
         setTabs((prevTabs) => [
-            ...prevTabs.slice(0, currentTabsIndex),
+            ...prevTabs.slice(0, openTabIndex),
             { ...defaultTab, id },
-            ...prevTabs.slice(currentTabsIndex),
+            ...prevTabs.slice(openTabIndex),
         ]);
+
         setOpenTabId(id);
+
+        setTimeout(() => {
+            document.querySelector(".web-views")?.children?.[openTabIndex]?.scrollIntoView?.({ behavior: "smooth", block: "center" });
+        }, 100);
     };
 
     const removeTab = (tabId) => {
+        const openTabIndex = tabs.findIndex(({ id }) => id == openTabId);
         setTabs((prevTabs) => prevTabs.filter((tab) => tabId !== tab.id));
+        if (tabs.length <= 2) {
+
+        }
+        setOpenTabId(tabs[openTabIndex]?.id || tabs[openTabIndex - 1]?.id || tabs[openTabIndex + 1]?.id || tabs[0]?.id);
+        setTimeout(() => {
+            document.querySelector(".web-views")?.children?.[openTabIndex]?.scrollIntoView?.({ behavior: "smooth", block: "center" });
+        }, 100);
     };
 
     const updateTabData = (tabId = "", data = {}) => {
@@ -57,7 +64,7 @@ export const TabsProvider = ({ children }) => {
             ]);
             setOpenTabId(id);
         }
-    }, [tabs.length]); // Fix: Only check length, prevents infinite rerender
+    }, [tabs.length]);
 
     return (
         <TabsContext.Provider
