@@ -20,7 +20,7 @@ export default function Tab({ tab }) {
         const handleDidNavigate = () => {
             updateTabData(tab.id, {
                 title: webview.getTitle(),
-                // Don't update the URL in tab state after the initial load
+                url: webview.getURL(),
             });
             updateURL();
         };
@@ -28,13 +28,25 @@ export default function Tab({ tab }) {
         const handlePageTitleUpdated = (event) => {
             updateTabData(tab.id, {
                 title: event.title,
-                // Keep the initial URL unchanged
+                url: webview.getURL(),
             });
             updateURL();
         };
 
         webview.addEventListener('did-navigate', handleDidNavigate);
         webview.addEventListener('page-title-updated', handlePageTitleUpdated);
+
+        if (openTabId == tab.id) {
+            const reloadButton = document.getElementById("reload-button");
+
+            webview.onloadstart = () => reloadButton.classList.add("loading");
+            webview.onloadedmetadata = () => reloadButton.classList.remove("loading");
+            webview.onloadeddata = () => reloadButton.classList.remove("loading");
+
+            setTimeout(() => {
+                reloadButton.classList.remove("loading")
+            }, 2000);
+        }
 
         return () => {
             webview.removeEventListener('did-navigate', handleDidNavigate);

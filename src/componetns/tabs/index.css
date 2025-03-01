@@ -6,24 +6,63 @@
 .web-views {
     height: calc(100% - 30px);
     width: 100%;
+    display: flex;
+    overflow-x: auto;
     scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    white-space: nowrap;
+
+    /* For Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(120, 120, 120, 0.4) transparent;
 }
+
+/* WebKit Browsers (Chrome, Edge, Safari) */
+.web-views::-webkit-scrollbar {
+    height: 6px;
+    /* Thin scrollbar */
+}
+
+.web-views::-webkit-scrollbar-track {
+    background: transparent;
+    /* Hide track */
+}
+
+.web-views::-webkit-scrollbar-thumb {
+    background: rgba(120, 120, 120, 0.3);
+    /* Soft gray */
+    border-radius: 3px;
+    transition: background 0.2s ease-in-out;
+}
+
+.web-views::-webkit-scrollbar-thumb:hover {
+    background: rgba(120, 120, 120, 0.6);
+    /* Slightly darker on hover */
+}
+
 
 .webview {
     height: 100%;
-    width: 100%;
-    scroll-snap-align: center;
+    min-width: 100%;
+    /* Ensure each webview takes full viewport width */
+    scroll-snap-align: start;
+    /* Align webviews properly */
+    flex-shrink: 0;
+    /* Prevent shrinking */
 }
 
+
 .top-tab {
+    padding-left: 5px;
     height: 30px;
-    width: calc(100% - 140px);
+    width: calc(100% - 150px);
     display: flex;
     flex-direction: row;
     align-items: center;
     overflow: hidden;
     word-break: keep-all;
     line-break: loose;
+    overflow: hidden;
 }
 
 svg {
@@ -54,4 +93,42 @@ svg {
     overflow: hidden;
     text-overflow: ellipsis;
     display: block;
+}
+
+#reload-button.loading {
+    animation: loading-rotation 1s linear infinite forwards;
+}
+
+@keyframes loading-rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.top-tab button {
+    height: 30px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transform: scale(1.2);
+    transition: all 0.3s ease-in-out;
+}
+
+.top-tab button svg {
+    transform: scale(2);
+    transition: all 0.3s ease-in-out;
+}
+
+.top-tab button:hover svg {
+    transform: scale(2.5);
+}
+
+.top-tab button:hover {
+    transform: scale(1.4);
 }

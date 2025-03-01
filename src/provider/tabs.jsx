@@ -8,53 +8,70 @@ export const TabsProvider = ({ children }) => {
         url: "https://manuelwestermeier.github.io/fsRch/",
         title: "new tab",
     });
-    const [tabs, setTabs] = useLocalStorage("browser-v3-tabs", [{
-        ...defaultTab,
-        id: crypto.randomUUID(),
-    }]);
+
+    const [tabs, setTabs] = useLocalStorage("browser-v3-tabs", [
+        {
+            ...defaultTab,
+            id: crypto.randomUUID(),
+        },
+    ]);
+
     const [openTabId, setOpenTabId] = useState(tabs?.[0]?.id || null);
 
     const addTab = () => {
         const id = crypto.randomUUID();
         let currentTabsIndex = 0;
-        for (const { id } of tabs) {
-            if (id == currentTabsIndex) break;
+
+        for (const tab of tabs) {
+            if (tab.id === currentTabsIndex) break;
             currentTabsIndex++;
         }
-        setTabs((prevTabs) => [...prevTabs.splice(currentTabsIndex, 0, {
-            ...defaultTab,
-            id,
-        })]);
+
+        // Fix: Correct way to insert without mutating the array
+        setTabs((prevTabs) => [
+            ...prevTabs.slice(0, currentTabsIndex),
+            { ...defaultTab, id },
+            ...prevTabs.slice(currentTabsIndex),
+        ]);
         setOpenTabId(id);
     };
 
     const removeTab = (tabId) => {
-        setTabs((prevTabs) => prevTabs.filter((tab) => tabId !== tab.tabId));
+        setTabs((prevTabs) => prevTabs.filter((tab) => tabId !== tab.id));
     };
 
     const updateTabData = (tabId = "", data = {}) => {
-        setTabs(old => old.map((tab, index) => {
-            if (tabId != tab.id) return tab;
-            return {
-                ...tab,
-                ...data,
-            }
-        }));
-    }
+        setTabs((old) =>
+            old.map((tab) => (tab.id === tabId ? { ...tab, ...data } : tab))
+        );
+    };
 
     useEffect(() => {
-        if (tabs.length == 0) {
+        if (tabs.length === 0) {
             const id = crypto.randomUUID();
-            setTabs([{
-                ...defaultTab,
-                id,
-            }]);
+            setTabs([
+                {
+                    ...defaultTab,
+                    id,
+                },
+            ]);
             setOpenTabId(id);
         }
-    }, [tabs]);
+    }, [tabs.length]); // Fix: Only check length, prevents infinite rerender
 
     return (
-        <TabsContext.Provider value={{ tabs, addTab, removeTab, openTabId, setOpenTabId, defaultTab, setDefaultTab, updateTabData }}>
+        <TabsContext.Provider
+            value={{
+                tabs,
+                addTab,
+                removeTab,
+                openTabId,
+                setOpenTabId,
+                defaultTab,
+                setDefaultTab,
+                updateTabData,
+            }}
+        >
             {children}
         </TabsContext.Provider>
     );
@@ -67,7 +84,7 @@ export const TabsProvider = ({ children }) => {
 export const useTabsContext = () => {
     const context = useContext(TabsContext);
     if (!context) {
-        throw new Error("useTabsContext must be used within an TabsProvider");
+        throw new Error("useTabsContext must be used within a TabsProvider");
     }
     return context;
 };
