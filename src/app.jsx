@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
+import Tabs from './componetns/tabs';
 
 export default function App() {
-    return (
-        <div>App</div>
-    )
+    const [appState, setAppStalte] = useState("websites");
+
+    return <>
+        <Tabs active={appState == "websites"} />
+    </>
 }

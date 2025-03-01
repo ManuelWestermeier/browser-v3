@@ -43,7 +43,8 @@ function createWindow() {
         titleBarStyle: "hidden",
         titleBarOverlay: {
             color: "black",
-            symbolColor: "red"
+            symbolColor: "red",
+            height: 30,
         }
     })
 

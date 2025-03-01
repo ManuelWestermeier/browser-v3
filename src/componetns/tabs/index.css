@@ -1,0 +1,57 @@
+.tabs {
+    display: flex;
+    flex-direction: column;
+}
+
+.web-views {
+    height: calc(100% - 30px);
+    width: 100%;
+    scroll-snap-type: x mandatory;
+}
+
+.webview {
+    height: 100%;
+    width: 100%;
+    scroll-snap-align: center;
+}
+
+.top-tab {
+    height: 30px;
+    width: calc(100% - 140px);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    overflow: hidden;
+    word-break: keep-all;
+    line-break: loose;
+}
+
+svg {
+    background-color: transparent;
+    fill: black;
+}
+
+.top-tab form input {
+    width: 100%;
+}
+
+.top-tab form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 50%;
+}
+
+.top-tab .name {
+    width: 50%;
+}
+
+.top-tab .name {
+    -webkit-app-region: drag;
+    cursor: grab;
+    width: 50%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}

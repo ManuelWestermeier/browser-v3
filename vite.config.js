@@ -21,10 +21,6 @@ export default defineConfig({
                 },
             },
             preload: {
-                input: {
-                    // You can configure multiple preload scripts here
-                    index: path.join(__dirname, 'electron/preload/index.js'),
-                },
                 vite: {
                     build: {
                         outDir: 'dist/electron/preload',

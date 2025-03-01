@@ -9,7 +9,9 @@
         "dev": "vite",
         "build": "vite build && electron-builder --config electron/electron-builder.json5"
     },
-    "dependencies": {},
+    "dependencies": {
+        "use-local-storage": "^3.0.0"
+    },
     "devDependencies": {
         "@types/react": "^18.0.17",
         "@types/react-dom": "^18.0.6",
