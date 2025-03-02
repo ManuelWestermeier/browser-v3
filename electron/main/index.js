@@ -42,8 +42,8 @@ function createWindow() {
         // frame: false, // Removes the entire window frame
         titleBarStyle: "hidden",
         titleBarOverlay: {
-            color: "black",
-            symbolColor: "red",
+            color: "#080727",
+            symbolColor: "#31c4f5",
             height: 30,
         }
     })

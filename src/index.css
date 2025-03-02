@@ -1,11 +1,16 @@
+:root {
+  --c: #31c4f5;
+  --b: #080727;
+}
+
 * {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   margin: 0;
   padding: 0;
   outline: none;
   border: none;
-  background-color: black;
-  color: red;
+  background-color: var(--b);
+  color: var(--c);
 }
 
 html,
@@ -18,8 +23,8 @@ body,
 button,
 input,
 textarea {
-  background-color: red;
-  color: black;
+  background-color: var(--c);
+  color: var(--b);
   padding: 10px;
   margin: 5px;
   border-radius: 2px;
@@ -30,13 +35,13 @@ button {
 }
 
 ::placeholder {
-  color: black;
+  color: var(--b);
 }
 
 webview,
 .webview {
   background-color: white;
-  color: black;
+  color: var(--b);
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 

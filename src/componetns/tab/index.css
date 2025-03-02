@@ -1,0 +1,9 @@
+.webview {
+    height: 100%;
+    width: 100%;
+    /* Ensure each webview takes full viewport width */
+    scroll-snap-align: start;
+    /* Align webviews properly */
+    flex-shrink: 0;
+    /* Prevent shrinking */
+}
