@@ -1,11 +1,41 @@
 import { useTabsContext } from "../../provider/tabs";
-import React from "react";
+import React, { useEffect } from "react";
 import "./index.css";
+
+const { ipcRenderer } = require("electron");
 
 export default function TabData({ setTabToScrollPos }) {
   const { tabs, openTabId, addTab, removeTab } = useTabsContext();
 
   const openTab = tabs.find(({ id }) => id == openTabId);
+
+  useEffect(() => {
+    const handleKeyPress = (_, key) => {
+      if (!openTab) return;
+
+      const tabElement = document.getElementById(openTabId);
+      if (key === "Alt+Left") {
+        tabElement?.goBack?.();
+      } else if (key === "Alt+Right") {
+        tabElement?.goForward?.();
+      } else if (key === "Alt+R") {
+        tabElement?.reload?.();
+      } else if (key === "Alt+X" || key === "Alt+W") {
+        removeTab(openTabId);
+      } else if (key === "Alt+A" || key === "Alt+T") {
+        addTab();
+      } else if (key === "Alt+S") {
+        document.querySelector(".top-tab form input")?.focus();
+      }
+    };
+
+    ipcRenderer.on("key-pressed", handleKeyPress);
+
+    return () => {
+      ipcRenderer.removeListener("key-pressed", handleKeyPress);
+    };
+  }, [openTab, openTabId, removeTab, addTab]);
+
   if (!openTab) {
     setTabToScrollPos({ target: document.querySelector(".web-views") });
     return "loading...";
