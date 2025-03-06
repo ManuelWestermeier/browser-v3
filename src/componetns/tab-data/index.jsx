@@ -1,11 +1,12 @@
 import { useTabsContext } from "../../provider/tabs";
 import React, { useEffect } from "react";
 import "./index.css";
+import getURL from "../../utils/get-url";
 
 const { ipcRenderer } = require("electron");
 
 export default function TabData({ setTabToScrollPos }) {
-  const { tabs, openTabId, addTab, removeTab } = useTabsContext();
+  const { tabs, openTabId, addTab, removeTab, defaultTab } = useTabsContext();
 
   const openTab = tabs.find(({ id }) => id == openTabId);
 
@@ -49,7 +50,10 @@ export default function TabData({ setTabToScrollPos }) {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          document.getElementById(openTabId).loadURL(e.target.url.value);
+          document.getElementById("url-input").blur();
+          const currentWebview = document.getElementById(openTabId);
+          currentWebview.loadURL(getURL(e.target.url.value, defaultTab.url));
+          currentWebview.focus();
         }}
       >
         <input
@@ -57,8 +61,7 @@ export default function TabData({ setTabToScrollPos }) {
           defaultValue={openTab.url}
           key={openTabId}
           id="url-input"
-          type="url"
-          required
+          type="text"
           name="url"
           placeholder="url..."
         />

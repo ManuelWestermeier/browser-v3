@@ -82,6 +82,8 @@ export default function Tab({ tab }) {
       ref={webviewElem}
       src={initialUrl.current} // Use the initial URL only
       className="tab webview"
+      allowFullScreen={true}
+      allowpopups={true}
     />
   );
 }

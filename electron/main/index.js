@@ -32,8 +32,8 @@ function createWindow() {
       height: 30,
     },
   });
-
   mainWindow.maximize();
+  mainWindow.focusOnWebView();
   // mainWindow.webContents.openDevTools();
 
   if (app.isPackaged) {
